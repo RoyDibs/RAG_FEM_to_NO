@@ -279,14 +279,16 @@ def fix_latex(text: str) -> str:
     return fix_latex_delimiters(text)
 
 
+# ---------------------------------------------------------------------------
+# Pre-load RAG chain at startup (so spinner doesn't appear in chat)
+# ---------------------------------------------------------------------------
+with st.spinner("🔄 Loading AI assistant..."):
+    _chain = load_rag_chain(st.session_state.module_filter)
+
+
 def get_chain():
-    """Get or create the RAG chain for the current module filter."""
-    if st.session_state.rag_chain is None:
-        with st.spinner("🔄 Loading AI assistant..."):
-            st.session_state.rag_chain = load_rag_chain(
-                st.session_state.module_filter
-            )
-    return st.session_state.rag_chain
+    """Get the cached RAG chain."""
+    return _chain
 
 
 # ---------------------------------------------------------------------------
