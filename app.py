@@ -41,7 +41,6 @@ st.markdown("""
     /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    header {visibility: hidden;}
 
     /* Sidebar styling */
     [data-testid="stSidebar"] {
