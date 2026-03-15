@@ -207,9 +207,6 @@ if "messages" not in st.session_state:
 if "rag_chain" not in st.session_state:
     st.session_state.rag_chain = None
 
-if "module_filter" not in st.session_state:
-    st.session_state.module_filter = "All Topics"
-
 
 # ---------------------------------------------------------------------------
 # Sidebar
@@ -219,19 +216,6 @@ with st.sidebar:
     st.markdown("*From FEM to Neural Operators*")
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
-
-    # Module filter
-    module = st.selectbox(
-        "🎯 Focus Area",
-        ["All Topics", "FEM", "PINN", "NO"],
-        index=0,
-        help="Filter responses to a specific workshop module",
-    )
-
-    # Update filter and reset chain if changed
-    if module != st.session_state.module_filter:
-        st.session_state.module_filter = module
-        st.session_state.rag_chain = None  # Force chain rebuild
 
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
 
@@ -283,7 +267,7 @@ def fix_latex(text: str) -> str:
 # Pre-load RAG chain at startup (so spinner doesn't appear in chat)
 # ---------------------------------------------------------------------------
 with st.spinner("🔄 Loading AI assistant..."):
-    _chain = load_rag_chain(st.session_state.module_filter)
+    _chain = load_rag_chain("All Topics")
 
 
 def get_chain():
