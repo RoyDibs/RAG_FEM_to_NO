@@ -3,8 +3,6 @@
 .env.*
 !.env.example
 
-# Qdrant vector store data
-qdrant_data/
 
 # Python
 __pycache__/
