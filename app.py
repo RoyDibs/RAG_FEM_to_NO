@@ -294,23 +294,6 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"], avatar="🧑‍🎓" if message["role"] == "user" else "🧠"):
         st.markdown(fix_latex(message["content"]))
 
-        # Show sources if available
-        if message["role"] == "assistant" and "sources" in message and message["sources"]:
-            with st.expander("📚 Sources used"):
-                for src in message["sources"]:
-                    module_tag = src.get("module", "?")
-                    ctype_tag = src.get("content_type", "?")
-                    filename = src.get("source_file", "Unknown")
-                    # Clean up filename for UI: remove common extensions
-                    clean_name = filename.replace(".pdf", "").replace(".m", "").replace(".ipynb", "").replace(".docx", "")
-                    st.markdown(
-                        f'<div class="source-item">'
-                        f'<span class="source-module">{module_tag}</span>'
-                        f'<span class="source-type">{ctype_tag}</span> '
-                        f'{clean_name}</div>',
-                        unsafe_allow_html=True,
-                    )
-
 
 # ---------------------------------------------------------------------------
 # Chat input handling
@@ -385,39 +368,12 @@ if user_input := st.chat_input("Ask about FEM, PINNs, or Neural Operators..."):
                 # Display answer
                 st.markdown(answer)
 
-                # Show sources
-                sources_meta = []
-                if source_docs:
-                    # Deduplicate sources by filename
-                    seen = set()
-                    unique_sources = []
-                    for doc in source_docs:
-                        fname = doc.metadata.get("source_file", "Unknown")
-                        if fname not in seen:
-                            seen.add(fname)
-                            unique_sources.append(doc.metadata)
-
-                    with st.expander("📚 Sources used"):
-                        for src in unique_sources:
-                            module_tag = src.get("module", "?")
-                            ctype_tag = src.get("content_type", "?")
-                            filename = src.get("source_file", "Unknown")
-                            # Clean up filename for UI
-                            clean_name = filename.replace(".pdf", "").replace(".m", "").replace(".ipynb", "").replace(".docx", "")
-                            st.markdown(
-                                f'<div class="source-item">'
-                                f'<span class="source-module">{module_tag}</span>'
-                                f'<span class="source-type">{ctype_tag}</span> '
-                                f'{clean_name}</div>',
-                                unsafe_allow_html=True,
-                            )
-                    sources_meta = unique_sources
 
                 # Store in session
                 st.session_state.messages.append({
                     "role": "assistant",
                     "content": answer,
-                    "sources": sources_meta,
+                    "sources": [],
                 })
 
                 # Update chat history for context
