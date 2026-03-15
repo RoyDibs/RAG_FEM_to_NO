@@ -301,11 +301,13 @@ for message in st.session_state.messages:
                     module_tag = src.get("module", "?")
                     ctype_tag = src.get("content_type", "?")
                     filename = src.get("source_file", "Unknown")
+                    # Clean up filename for UI: remove common extensions
+                    clean_name = filename.replace(".pdf", "").replace(".m", "").replace(".ipynb", "").replace(".docx", "")
                     st.markdown(
                         f'<div class="source-item">'
                         f'<span class="source-module">{module_tag}</span>'
                         f'<span class="source-type">{ctype_tag}</span> '
-                        f'{filename}</div>',
+                        f'{clean_name}</div>',
                         unsafe_allow_html=True,
                     )
 
@@ -400,11 +402,13 @@ if user_input := st.chat_input("Ask about FEM, PINNs, or Neural Operators..."):
                             module_tag = src.get("module", "?")
                             ctype_tag = src.get("content_type", "?")
                             filename = src.get("source_file", "Unknown")
+                            # Clean up filename for UI
+                            clean_name = filename.replace(".pdf", "").replace(".m", "").replace(".ipynb", "").replace(".docx", "")
                             st.markdown(
                                 f'<div class="source-item">'
                                 f'<span class="source-module">{module_tag}</span>'
                                 f'<span class="source-type">{ctype_tag}</span> '
-                                f'{filename}</div>',
+                                f'{clean_name}</div>',
                                 unsafe_allow_html=True,
                             )
                     sources_meta = unique_sources
