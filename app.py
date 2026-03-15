@@ -239,11 +239,6 @@ with st.sidebar:
         Ask about theory, code, math, or concepts!
         """)
 
-    # Powered by badge
-    st.markdown(
-        '<div class="powered-badge">⚡ Powered by GPT-5.1 + e5-large-v2</div>',
-        unsafe_allow_html=True,
-    )
 
 
 # ---------------------------------------------------------------------------
@@ -291,9 +286,6 @@ if not st.session_state.messages:
             <li>🤖 <strong>Neural Operators</strong> — DeepONet architecture, operator learning</li>
             <li>💻 <strong>Code explanations</strong> — MATLAB FEM code, Python/JAX notebooks</li>
         </ul>
-        <p style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem;">
-            Use the sidebar to focus on a specific module, or ask about anything!
-        </p>
     </div>
     """, unsafe_allow_html=True)
 
